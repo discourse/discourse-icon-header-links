@@ -1,0 +1,5 @@
+Header_links:
+  type: list
+  default: 'Dektop-mobile link,facebook,https://facebook.com,vdm|Mobile-only link,twitter,https://twitter.com,vdo'
+  description:
+    en: "Comma delimited in this order: Title,Icon,URL,View. View can be:  Visible on both desktop and mobile devices (vdm), Desktop only (vdo), Mobile only (vmo)"
