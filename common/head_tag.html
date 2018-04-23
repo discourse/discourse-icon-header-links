@@ -1,0 +1,19 @@
+<script type="text/discourse-plugin" version="0.4">
+api.decorateWidget("header-icons:before", helper => {
+  var hlt = settings.Header_links;
+  return hlt.split("|").map(i => {
+    const seg = i.split(",");
+
+    return helper.h("li." + seg[3], [
+      helper.h(
+        "a.icon.btn-flat",
+        {
+          href: seg[2],
+          title: seg[0]
+        },
+        helper.h("i.fa.fa-" + seg[1] + ".d-icon.d-icon-" + seg[1])
+      )
+    ]);
+  });
+});
+</script>
