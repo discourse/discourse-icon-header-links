@@ -2,7 +2,7 @@
 api.decorateWidget("header-icons:before", helper => {
   var hlt = settings.Header_links;
   return hlt.split("|").map(i => {
-    const seg = i.split(",");
+    var seg = i.split(",");
 
     return helper.h("li." + seg[3], [
       helper.h(
