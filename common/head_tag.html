@@ -9,7 +9,8 @@ api.decorateWidget("header-icons:before", helper => {
         "a.icon.btn-flat",
         {
           href: seg[2],
-          title: seg[0]
+          title: seg[0],
+          target: "_" + seg[4]
         },
         helper.h("i.fa.fa-" + seg[1] + ".d-icon.d-icon-" + seg[1])
       )
