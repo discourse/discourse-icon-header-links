@@ -1,4 +1,6 @@
 <script type="text/discourse-plugin" version="0.4">
+const { iconNode } = require("discourse-common/lib/icon-library");
+
 api.decorateWidget("header-icons:before", helper => {
   var hlt = settings.Header_links;
   return hlt.split("|").map(i => {
@@ -12,7 +14,7 @@ api.decorateWidget("header-icons:before", helper => {
           title: seg[0],
           target: "_" + seg[4]
         },
-        helper.h("i.fa.fa-" + seg[1] + ".d-icon.d-icon-" + seg[1])
+        iconNode(seg[1])
       )
     ]);
   });
