@@ -4,7 +4,7 @@ const { iconNode } = require("discourse-common/lib/icon-library");
 api.decorateWidget("header-icons:before", helper => {
   var hlt = settings.Header_links;
   return hlt.split("|").map(i => {
-    var seg = $.map(i.split(","), $.trim);
+    const seg = $.map(i.split(","), $.trim);
 
     return helper.h("li." + seg[3], [
       helper.h(
@@ -14,7 +14,7 @@ api.decorateWidget("header-icons:before", helper => {
           title: seg[0],
           target: "_" + seg[4]
         },
-        iconNode(seg[1])
+        iconNode(seg[1].toLowerCase())
       )
     ]);
   });
