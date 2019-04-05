@@ -1,8 +1,8 @@
 Header_links:
   type: list
-  default: 'Dektop-mobile link,facebook,https://facebook.com,vdm,blank|Mobile-only link,twitter,https://twitter.com,vdo,blank'
+  default: 'Desktop-mobile link,facebook,https://facebook.com,vdm,blank|Mobile-only link,twitter,https://twitter.com,vdo,blank'
   description:
-    en: "Comma delimited in this order: Title,Icon,URL,View,Target. View can be:  visible on both desktop and mobile devices (vdm), Desktop only (vdo) or mobile only (vmo). Target can be: same tab (self) or new tab (blank)."
+    en: "Comma delimited in this order: Title,Icon,URL,View,Target. View can be: visible on both desktop and mobile devices (vdm), Desktop only (vdo) or mobile only (vmo). Target can be: same tab (self) or new tab (blank)."
 Svg_icons: 
   type: 'list'
   list_type: 'compact'
