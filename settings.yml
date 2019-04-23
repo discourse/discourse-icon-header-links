@@ -1,11 +1,11 @@
 Header_links:
   type: list
-  default: 'Dektop-mobile link,facebook,https://facebook.com,vdm,blank|Mobile-only link,twitter,https://twitter.com,vdo,blank'
+  default: "Dektop-mobile link,fab-facebook,https://facebook.com,vdm,blank|Mobile-only link,fab-twitter,https://twitter.com,vmo,blank|Weather,temperature-low,https://www.weather.com"
   description:
     en: "Comma delimited in this order: Title,Icon,URL,View,Target. View can be:  visible on both desktop and mobile devices (vdm), Desktop only (vdo) or mobile only (vmo). Target can be: same tab (self) or new tab (blank)."
-Svg_icons: 
-  type: 'list'
-  list_type: 'compact'
-  default: 'fa-facebook|fa-twitter'
-  description: 
+Svg_icons:
+  type: "list"
+  list_type: "compact"
+  default: "fab-facebook|fab-twitter|temperature-low"
+  description:
     en: "Include FontAwesome 5 icon classes for each icon used in the list."
