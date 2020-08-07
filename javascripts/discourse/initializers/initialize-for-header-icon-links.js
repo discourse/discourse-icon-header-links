@@ -25,7 +25,8 @@ export default {
                 "a.icon.btn-flat",
                 {
                   href,
-                  title
+                  title,
+                  target
                 },
                 icon
               )
