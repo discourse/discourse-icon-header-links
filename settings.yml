@@ -1,6 +1,6 @@
 Header_links:
   type: list
-  default: "Dektop mobile link, fab-facebook, https://facebook.com, vdm, blank|Mobile-only link, fab-twitter, https://twitter.com, vmo, blank"
+  default: "Desktop mobile link, fab-facebook, https://facebook.com, vdm, blank|Mobile-only link, fab-twitter, https://twitter.com, vmo, blank"
   description:
     en: "Comma delimited in this order: <br>
       <b>title, icon, URL, view, target</b>
