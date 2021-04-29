@@ -1,6 +1,15 @@
-import { withPluginApi } from "discourse/lib/plugin-api";
-import { iconNode } from "discourse-common/lib/icon-library";
-import { dasherize } from "@ember/string";
+import {withPluginApi} from "discourse/lib/plugin-api";
+import {iconNode} from "discourse-common/lib/icon-library";
+import {dasherize} from "@ember/string";
+
+function parseIcon(icon) {
+  const result = icon.match(/\[(.+)\]/);
+  if (result[1]) {
+    const icons = result[1].split(",").map(it => it.trim())
+    return icons[Math.random(icons.length)];
+  }
+  return icon;
+}
 
 export default {
   name: "header-icon-links",
@@ -12,7 +21,7 @@ export default {
         splitLinks.forEach(link => {
           const fragments = link.split(",").map(fragment => fragment.trim());
           const title = fragments[0];
-          const icon = iconNode(fragments[1].toLowerCase());
+          const icon = iconNode(parseIcon(fragments[1].toLowerCase()));
           const href = fragments[2];
           const className = `header-icon-${dasherize(fragments[0])}`;
           const viewClass = fragments[3].toLowerCase();
