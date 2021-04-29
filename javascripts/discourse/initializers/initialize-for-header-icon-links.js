@@ -3,10 +3,10 @@ import {iconNode} from "discourse-common/lib/icon-library";
 import {dasherize} from "@ember/string";
 
 function parseIcon(icon) {
-  const result = icon.match(/\[(.+)\]/);
-  if (result[1]) {
-    const icons = result[1].split(",").map(it => it.trim())
-    return icons[Math.random(icons.length)];
+  const result = icon.match(/\[(.+)]/);
+  if (result && result[1]) {
+    const icons = result[1].split(" ").map(it => it.trim());
+    return icons[Math.floor(Math.random() * icons.length)];
   }
   return icon;
 }
