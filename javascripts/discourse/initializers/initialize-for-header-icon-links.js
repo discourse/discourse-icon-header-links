@@ -9,7 +9,7 @@ export default {
       try {
         const splitLinks = settings.Header_links.split("|").filter(Boolean);
 
-        splitLinks.forEach((link) => {
+        splitLinks.forEach((link, index, links) => {
           const fragments = link.split(",").map((fragment) => fragment.trim());
           const title = fragments[0];
           const icon = iconNode(fragments[1].toLowerCase());
@@ -17,7 +17,9 @@ export default {
           const className = `header-icon-${dasherize(fragments[0])}`;
           const viewClass = fragments[3].toLowerCase();
           const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
-          const selector = `li.${className}.${viewClass}`;
+          const isLastLink =
+            link === links[links.length - 1] ? ".last-custom-icon" : "";
+          const selector = `li.custom-header-icon-link.${className}.${viewClass}${isLastLink}`;
 
           api.decorateWidget("header-icons:before", (helper) => {
             return helper.h(selector, [
