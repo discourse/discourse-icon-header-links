@@ -5,12 +5,12 @@ import { dasherize } from "@ember/string";
 export default {
   name: "header-icon-links",
   initialize() {
-    withPluginApi("0.8.41", api => {
+    withPluginApi("0.8.41", (api) => {
       try {
         const splitLinks = settings.Header_links.split("|").filter(Boolean);
 
-        splitLinks.forEach(link => {
-          const fragments = link.split(",").map(fragment => fragment.trim());
+        splitLinks.forEach((link) => {
+          const fragments = link.split(",").map((fragment) => fragment.trim());
           const title = fragments[0];
           const icon = iconNode(fragments[1].toLowerCase());
           const href = fragments[2];
@@ -19,17 +19,17 @@ export default {
           const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
           const selector = `li.${className}.${viewClass}`;
 
-          api.decorateWidget("header-icons:before", helper => {
+          api.decorateWidget("header-icons:before", (helper) => {
             return helper.h(selector, [
               helper.h(
                 "a.icon.btn-flat",
                 {
                   href,
                   title,
-                  target
+                  target,
                 },
                 icon
-              )
+              ),
             ]);
           });
         });
@@ -40,5 +40,5 @@ export default {
         );
       }
     });
-  }
+  },
 };
