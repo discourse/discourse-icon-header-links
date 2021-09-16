@@ -1,5 +1,3 @@
-# Discourse header links theme component
+# Admin toolbox
 
-A theme component that adds linked icons to the header
-
-More information: https://meta.discourse.org/t/iconified-header-links/86307
+A Discourse theme component. Adds header icons that link to admin settings.
