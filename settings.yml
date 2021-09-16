@@ -1,6 +1,6 @@
 Header_links:
   type: list
-  default: "Desktop mobile link, fab-facebook, https://facebook.com, vdm, blank|Mobile-only link, fab-twitter, https://twitter.com, vmo, blank"
+  default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"
   description:
     en: "Comma delimited in this order: <br>
       <b>title, icon, URL, view, target</b>
@@ -21,9 +21,14 @@ add_whitespace:
   default: false
   description:
     en: "If checked, this will add some whitespace between the default Discourse header icons and the custom icons added via this component"
+hide_alerts:
+  type: bool
+  default: true
+  description:
+    en: "Hide all alert banners and notifications"
 Svg_icons:
   type: "list"
   list_type: "compact"
-  default: "fab-facebook|fab-twitter"
+  default: "paint-brush|paragraph"
   description:
     en: "Include FontAwesome 5 icon classes for each icon used in the list."
