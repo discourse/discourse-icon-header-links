@@ -1,6 +1,4 @@
 {
   "name": "Admin toolbox",
-  "about_url": "https://meta.discourse.org/t/custom-header-links-icons/86307",
-  "license_url": "https://github.com/discourse/discourse-icon-header-links/blob/main/LICENSE",
   "component": true
 }
