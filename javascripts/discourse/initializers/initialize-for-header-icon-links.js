@@ -6,6 +6,11 @@ export default {
   name: "header-icon-links",
   initialize() {
     withPluginApi("0.8.41", (api) => {
+
+      // only show to admins
+      const currentUser = api.getCurrentUser();
+      if (currentUser.admin == false) return;
+
       try {
         const splitLinks = settings.Header_links.split("|").filter(Boolean);
 
