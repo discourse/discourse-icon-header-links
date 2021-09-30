@@ -11,6 +11,8 @@ export default {
       const currentUser = api.getCurrentUser();
       if (currentUser == null) return;
       if (currentUser !== null && currentUser.admin == false) return;
+      if (settings.username && currentUser.username !== settings.username) return;
+      console.log(currentUser.username);
 
       try {
         const splitLinks = settings.Header_links.split("|").filter(Boolean);
