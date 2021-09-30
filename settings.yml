@@ -23,7 +23,7 @@ Header_links:
       <b>Target</b>: same tab (self) or new tab (blank)."
 hide_alerts:
   type: bool
-  default: true
+  default: false
   description:
     en: "Hide all alert banners and notifications"
 Svg_icons:
