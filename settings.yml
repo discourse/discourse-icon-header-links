@@ -8,13 +8,13 @@ Header_links:
       <br>
       <b>title</b>: the desired title you want the link to have (when hovered). <br>
       <b>icon</b>: the icon you want the link to have. <br>
+      <b>URL</b>: the desired URL you want the link to point to. <br>
       <b>View</b>:
       <ul>
       <li>visible on both desktop and mobile devices (vdm)</li>
       <li>Desktop only (vdo).</li>
       <li>mobile only (vmo).</li>
       </ul>
-      <b>URL</b>: the desired URL you want the link to point to. <br>
       <b>Target</b>: same tab (self) or new tab (blank)."
 add_whitespace:
   type: bool
