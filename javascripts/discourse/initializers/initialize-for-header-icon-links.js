@@ -54,56 +54,44 @@ export default {
         }
       }
 
-      // only show to admins
+      const checkGroup = (groups) => {
+        const userGroup = currentUser.groups.map(u => u.name);
+
+        const found = groups.split('|').some(r => userGroup.indexOf(r) >= 0)
+
+        return found
+      }
+
       const currentUser = api.getCurrentUser();
 
-      if (currentUser == null) return;
+      if (currentUser == null) {
+        render(settings.Header_links_for_not_login_user)
+        return;
+      }
 
       console.log(currentUser)
 
-      let match = false
+      if (settings.group_set_1) {
+        if (checkGroup(Header_links_set_1)) {
+          render(settings.Header_links_set_1)
+          return;
 
-      if (settings.show_for_moderator && currentUser.moderator) {
-        match = true
+        }
       }
 
-      if (settings.show_for_admin && currentUser.admin) {
-        match = true
-      }
-
-      if (settings.username && currentUser.username === settings.username) {
-        match = true
-      }
-
-      if (settings.group) {
-
-        const userGroup = currentUser.groups.map(u => u.name);
-
-        const found = settings.group.split('|').some(r => userGroup.indexOf(r) >= 0)
-
-        if (found) {
-          match = true
+      if (settings.group_set_2) {
+        if (checkGroup(Header_links_set_2)) {
+          render(settings.Header_links_set_2)
+          return;
         }
       }
 
       if (settings.exclude_group) {
-
-        const userGroup = currentUser.groups.map(u => u.name);
-
-        const found = settings.exclude_group.split('|').some(r => userGroup.indexOf(r) >= 0)
-
-        if (!found) {
+        if (!checkGroup(settings.exclude_group)) {
           render(settings.Header_links_for_other_group)
           return
         }
-
       }
-
-      if (!match) {
-        return
-      }
-
-      render(settings.Header_links)
 
     });
   },
