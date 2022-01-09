@@ -72,7 +72,7 @@ export default {
       console.log(currentUser)
 
       if (settings.group_set_1) {
-        if (checkGroup(settings.Header_links_set_1)) {
+        if (checkGroup(settings.group_set_1)) {
           render(settings.Header_links_set_1)
           return;
 
@@ -80,7 +80,7 @@ export default {
       }
 
       if (settings.group_set_2) {
-        if (checkGroup(settings.Header_links_set_2)) {
+        if (checkGroup(settings.group_set_2)) {
           render(settings.Header_links_set_2)
           return;
         }
