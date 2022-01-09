@@ -69,8 +69,6 @@ export default {
         return;
       }
 
-      console.log(currentUser)
-
       if (settings.group_set_1) {
         if (checkGroup(settings.group_set_1)) {
           render(settings.Header_links_set_1)
