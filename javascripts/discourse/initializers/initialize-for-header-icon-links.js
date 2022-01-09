@@ -38,7 +38,7 @@ export default {
 
         const userGroup = currentUser.groups.map(u => u.name);
 
-        const found = settings.group.some(r => userGroup.indexOf(r) >= 0)
+        const found = settings.group.split('|').some(r => userGroup.indexOf(r) >= 0)
 
         if (found) {
           match = true
