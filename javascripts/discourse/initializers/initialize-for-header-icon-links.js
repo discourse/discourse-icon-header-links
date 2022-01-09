@@ -13,6 +13,47 @@ export default {
   initialize() {
     withPluginApi("0.8.41", (api) => {
 
+      const render = (Header_links) => {
+        try {
+          const splitLinks = Header_links.split("|").filter(Boolean);
+
+          splitLinks.forEach((link, index, links) => {
+            const fragments = link.split(",").map((fragment) => fragment.trim());
+            const title = fragments[0];
+            const icon = iconNode(fragments[1].toLowerCase());
+            const href = fragments[2];
+            const className = `header-icon-${dasherize(fragments[0])}`;
+            const viewClass = fragments[3].toLowerCase();
+            const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
+            const rel = target ? "noopener" : "";
+            const isLastLink =
+              link === links[links.length - 1] ? ".last-custom-icon" : "";
+            const selector = `li.custom-header-icon-link.${className}.${viewClass}${isLastLink}`;
+
+            api.decorateWidget("header-icons:before", (helper) => {
+              return helper.h(selector, [
+                helper.h(
+                  "a.icon.btn-flat", {
+                    href,
+                    title,
+                    target,
+                    attributes: {
+                      rel,
+                    },
+                  },
+                  icon
+                ),
+              ]);
+            });
+          });
+        } catch (error) {
+          console.error(error);
+          console.error(
+            "There's an issue in the header icon links component. Check if your settings are entered correctly"
+          );
+        }
+      }
+
       // only show to admins
       const currentUser = api.getCurrentUser();
 
@@ -45,48 +86,25 @@ export default {
         }
       }
 
+      if (settings.exclude_group) {
+
+        const userGroup = currentUser.groups.map(u => u.name);
+
+        const found = settings.exclude_group.split('|').some(r => userGroup.indexOf(r) >= 0)
+
+        if (!found) {
+          render(settings.Header_links_for_other_group)
+          return
+        }
+
+      }
+
       if (!match) {
         return
       }
 
-      try {
-        const splitLinks = settings.Header_links.split("|").filter(Boolean);
+      render(settings.Header_links)
 
-        splitLinks.forEach((link, index, links) => {
-          const fragments = link.split(",").map((fragment) => fragment.trim());
-          const title = fragments[0];
-          const icon = iconNode(fragments[1].toLowerCase());
-          const href = fragments[2];
-          const className = `header-icon-${dasherize(fragments[0])}`;
-          const viewClass = fragments[3].toLowerCase();
-          const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
-          const rel = target ? "noopener" : "";
-          const isLastLink =
-            link === links[links.length - 1] ? ".last-custom-icon" : "";
-          const selector = `li.custom-header-icon-link.${className}.${viewClass}${isLastLink}`;
-
-          api.decorateWidget("header-icons:before", (helper) => {
-            return helper.h(selector, [
-              helper.h(
-                "a.icon.btn-flat", {
-                  href,
-                  title,
-                  target,
-                  attributes: {
-                    rel,
-                  },
-                },
-                icon
-              ),
-            ]);
-          });
-        });
-      } catch (error) {
-        console.error(error);
-        console.error(
-          "There's an issue in the header icon links component. Check if your settings are entered correctly"
-        );
-      }
     });
   },
 };

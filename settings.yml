@@ -2,7 +2,7 @@ username:
   type: string
   default: ""
   description:
-      en: "Show buttons only to the admin with this username. "
+    en: "Show buttons only to the admin with this username. "
 show_for_admin:
   type: bool
   default: false
@@ -17,8 +17,31 @@ group:
   type: list
   default: ""
   description:
-      en: "Show buttons only to the admin with this username. "
+    en: "Show buttons only to the admin with this username. "
 Header_links:
+  type: list
+  default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"
+  description:
+    en: "Comma delimited in this order: <br>
+      <b>title, icon, URL, view, target</b>
+      <br>
+      <br>
+      <b>title</b>: the desired title you want the link to have (when hovered). <br>
+      <b>icon</b>: the icon you want the link to have. <br>
+      <b>View</b>:
+      <ul>
+      <li>visible on both desktop and mobile devices (vdm)</li>
+      <li>Desktop only (vdo).</li>
+      <li>mobile only (vmo).</li>
+      </ul>
+      <b>URL</b>: the desired URL you want the link to point to. <br>
+      <b>Target</b>: same tab (self) or new tab (blank)."
+exclude_group:
+  type: list
+  default: ""
+  description:
+    en: "Show buttons only to the admin with this username. "
+Header_links_for_other_group:
   type: list
   default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"
   description:
