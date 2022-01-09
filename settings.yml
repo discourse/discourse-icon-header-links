@@ -2,12 +2,12 @@ group_set_1:
   type: list
   default: ""
   description:
-    en: "Show buttons only to the admin with this username. "
+    en: "show link set 1 for these groups"
 Header_links_set_1:
   type: list
   default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"
   description:
-    en: "Comma delimited in this order: <br>
+    en: "Link set 1, comma delimited in this order: <br>
       <b>title, icon, URL, view, target</b>
       <br>
       <br>
@@ -25,12 +25,12 @@ group_set_2:
   type: list
   default: ""
   description:
-    en: "Show buttons only to the admin with this username. "
+    en: "show link set2 for these groups"
 Header_links_set_2:
   type: list
   default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"
   description:
-    en: "Comma delimited in this order: <br>
+    en: "Link set 2, comma delimited in this order: <br>
       <b>title, icon, URL, view, target</b>
       <br>
       <br>
@@ -48,12 +48,12 @@ exclude_group:
   type: list
   default: ""
   description:
-    en: "Show buttons only to the admin with this username. "
+    en: "Show links_for_other_group for groups other then these groups."
 Header_links_for_other_group:
   type: list
   default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"
   description:
-    en: "Comma delimited in this order: <br>
+    en: "Links_for_other_group,comma delimited in this order: <br>
       <b>title, icon, URL, view, target</b>
       <br>
       <br>
@@ -71,7 +71,7 @@ Header_links_for_not_login_user:
   type: list
   default: "tags,tags,/tags,vdm,self"
   description:
-    en: "Comma delimited in this order: <br>
+    en: "Link set for non-logged-in users, comma delimited in this order: <br>
       <b>title, icon, URL, view, target</b>
       <br>
       <br>
