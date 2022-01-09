@@ -1,6 +1,12 @@
-import { withPluginApi } from "discourse/lib/plugin-api";
-import { iconNode } from "discourse-common/lib/icon-library";
-import { dasherize } from "@ember/string";
+import {
+  withPluginApi
+} from "discourse/lib/plugin-api";
+import {
+  iconNode
+} from "discourse-common/lib/icon-library";
+import {
+  dasherize
+} from "@ember/string";
 
 export default {
   name: "header-icon-links",
@@ -13,9 +19,35 @@ export default {
       if (currentUser == null) return;
 
       console.log(currentUser)
-      if (currentUser !== null && currentUser.admin == false) return;
-      if (!settings.show_for_moderator && !settings.show_for_admin ) return
-      if (settings.username && currentUser.username !== settings.username ) return;
+
+      let match = false
+
+      if (settings.show_for_moderator && currentUser.moderator) {
+        match = true
+      }
+
+      if (settings.show_for_admin && currentUser.admin) {
+        match = true
+      }
+
+      if (settings.username && currentUser.username === settings.username) {
+        match = true
+      }
+
+      if (settings.group) {
+
+        const userGroup = currentUser.groups.map(u => u.name);
+
+        const found = settings.group.some(r => userGroup.indexOf(r) >= 0)
+
+        if (found) {
+          match = true
+        }
+      }
+
+      if (!match) {
+        return
+      }
 
       try {
         const splitLinks = settings.Header_links.split("|").filter(Boolean);
@@ -36,8 +68,7 @@ export default {
           api.decorateWidget("header-icons:before", (helper) => {
             return helper.h(selector, [
               helper.h(
-                "a.icon.btn-flat",
-                {
+                "a.icon.btn-flat", {
                   href,
                   title,
                   target,
