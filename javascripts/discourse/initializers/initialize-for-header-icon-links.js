@@ -9,7 +9,7 @@ import {
 } from "@ember/string";
 
 export default {
-  name: "header-icon-links",
+  name: "target-specific-header-icon-links",
   initialize() {
     withPluginApi("0.8.41", (api) => {
 
