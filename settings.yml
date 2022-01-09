@@ -2,7 +2,17 @@ username:
   type: string
   default: ""
   description:
-      en: "Show buttons only to the admin with this username. If unset, they are shown to all admins."
+      en: "Show buttons only to the admin with this username. "
+show_for_admin:
+  type: bool
+  default: false
+  description:
+    en: "Hide all alert banners and notifications"
+show_for_moderator:
+  type: bool
+  default: false
+  description:
+    en: "Hide all alert banners and notifications"
 Header_links:
   type: list
   default: "Settings,cog,/admin/site_settings,vdo,self|Customize,paint-brush,/admin/customize/themes,vdo,self|Texts,paragraph,/admin/customize/site_texts,vdo,self"

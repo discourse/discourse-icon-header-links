@@ -9,9 +9,13 @@ export default {
 
       // only show to admins
       const currentUser = api.getCurrentUser();
+
       if (currentUser == null) return;
+
+      console.log(currentUser)
       if (currentUser !== null && currentUser.admin == false) return;
-      if (settings.username && currentUser.username !== settings.username) return;
+      if (!settings.show_for_moderator && !settings.show_for_admin ) return
+      if (settings.username && currentUser.username !== settings.username ) return;
 
       try {
         const splitLinks = settings.Header_links.split("|").filter(Boolean);
