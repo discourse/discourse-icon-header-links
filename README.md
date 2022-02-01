@@ -1,3 +1,3 @@
-# Admin toolbox
+# Group specific tool bar
 
-A Discourse theme component. Adds header icons that link to admin settings.
+A Discourse theme component. Adds different set of header icons for specified group.
