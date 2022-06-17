@@ -40,8 +40,9 @@ export default {
           });
         });
       } catch (error) {
-        console.error(error);
+        // eslint-disable-next-line no-console
         console.error(
+          error,
           "There's an issue in the header icon links component. Check if your settings are entered correctly"
         );
       }
