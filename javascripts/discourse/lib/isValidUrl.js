@@ -1,6 +1,6 @@
 export default function isValidUrl(string) {
   try {
-    new URL(string);
+    URL(string);
   } catch (_) {
     return false;
   }
