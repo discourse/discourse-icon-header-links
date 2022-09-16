@@ -1,6 +1,24 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import { iconNode } from "discourse-common/lib/icon-library";
 import { dasherize } from "@ember/string";
+import isValidUrl from "../lib/isValidUrl";
+import { h } from "virtual-dom";
+
+function buildIcon(icon) {
+  if (isValidUrl(icon)) {
+    return h(
+      "img",
+      {
+        attributes: {
+          src: icon,
+        },
+      },
+      ""
+    );
+  } else {
+    return iconNode(icon.toLowerCase());
+  }
+}
 
 export default {
   name: "header-icon-links",
@@ -12,7 +30,7 @@ export default {
         splitLinks.forEach((link, index, links) => {
           const fragments = link.split(",").map((fragment) => fragment.trim());
           const title = fragments[0];
-          const icon = iconNode(fragments[1].toLowerCase());
+          const icon = buildIcon(fragments[1]);
           const href = fragments[2];
           const className = `header-icon-${dasherize(fragments[0])}`;
           const viewClass = fragments[3].toLowerCase();
