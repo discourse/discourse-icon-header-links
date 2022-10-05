@@ -1,6 +1,12 @@
 export default function isValidUrl(string) {
+  let url;
+
   try {
-    URL(string);
+    url = new URL(string);
+
+    if (url) {
+      return true;
+    }
   } catch (_) {
     return false;
   }
