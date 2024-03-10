@@ -1,22 +1,16 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { iconNode } from "discourse-common/lib/icon-library";
+import { iconHTML } from "discourse-common/lib/icon-library";
 import { dasherize } from "@ember/string";
 import isValidUrl from "../lib/isValidUrl";
-import { h } from "virtual-dom";
+import { htmlSafe } from "@ember/template";
 
-function buildIcon(icon) {
-  if (isValidUrl(icon)) {
-    return h(
-      "img",
-      {
-        attributes: {
-          src: icon,
-        },
-      },
-      ""
-    );
+function buildIcon(iconNameOrImageUrl) {
+  if (isValidUrl(iconNameOrImageUrl)) {
+    return <template>
+      <img src="{{iconNameOrImageUrl}}"/>
+    </template>
   } else {
-    return iconNode(icon.toLowerCase());
+    return htmlSafe(iconHTML(iconNameOrImageUrl.toLowerCase()));
   }
 }
 
@@ -38,24 +32,23 @@ export default {
           const rel = target ? "noopener" : "";
           const isLastLink =
             link === links[links.length - 1] ? ".last-custom-icon" : "";
-          const selector = `li.custom-header-icon-link.${className}.${viewClass}${isLastLink}`;
 
-          api.decorateWidget("header-icons:before", (helper) => {
-            return helper.h(selector, [
-              helper.h(
-                "a.icon.btn-flat",
-                {
-                  href,
-                  title,
-                  target,
-                  attributes: {
-                    rel,
-                  },
-                },
-                icon
-              ),
-            ]);
-          });
+          const iconComponent = <template>
+            <li class="custom-header-icon-link {{className}} {{viewClass}} {{isLastLink}}">
+              <a class="icon btn-flat"
+              href="{{href}}"
+              title="{{title}}"
+              target="{{target}}"
+              rel="{{rel}}"
+              >
+                {{icon}}
+              </a>
+            </li>
+          </template>
+
+          const beforeIcon = ['chat', 'search', 'hamburger', 'user-menu']
+
+          api.headerIcons.add(title, iconComponent, { before: beforeIcon })
         });
       } catch (error) {
         // eslint-disable-next-line no-console
