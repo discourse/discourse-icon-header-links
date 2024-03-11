@@ -1,8 +1,7 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { iconHTML } from "discourse-common/lib/icon-library";
+import icon from "discourse-common/helpers/d-icon";
 import { dasherize } from "@ember/string";
 import isValidUrl from "../lib/isValidUrl";
-import { htmlSafe } from "@ember/template";
 
 function buildIcon(iconNameOrImageUrl) {
   if (isValidUrl(iconNameOrImageUrl)) {
@@ -10,7 +9,7 @@ function buildIcon(iconNameOrImageUrl) {
       <img src="{{iconNameOrImageUrl}}"/>
     </template>
   } else {
-    return htmlSafe(iconHTML(iconNameOrImageUrl.toLowerCase()));
+    return <template>{{icon iconNameOrImageUrl }}</template>
   }
 }
 
@@ -24,7 +23,7 @@ export default {
         splitLinks.forEach((link, index, links) => {
           const fragments = link.split(",").map((fragment) => fragment.trim());
           const title = fragments[0];
-          const icon = buildIcon(fragments[1]);
+          const iconTemplate = buildIcon(fragments[1]);
           const href = fragments[2];
           const className = `header-icon-${dasherize(fragments[0])}`;
           const viewClass = fragments[3].toLowerCase();
@@ -41,7 +40,7 @@ export default {
               target="{{target}}"
               rel="{{rel}}"
               >
-                {{icon}}
+                {{iconTemplate}}
               </a>
             </li>
           </template>
