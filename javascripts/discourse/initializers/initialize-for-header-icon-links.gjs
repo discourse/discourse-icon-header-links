@@ -6,7 +6,7 @@ import isValidUrl from "../lib/isValidUrl";
 function buildIcon(iconNameOrImageUrl) {
   if (isValidUrl(iconNameOrImageUrl)) {
     return <template>
-      <img src="{{iconNameOrImageUrl}}"/>
+      <img src="{{iconNameOrImageUrl}}" aria-hidden="true"/>
     </template>
   } else {
     return <template>{{icon iconNameOrImageUrl }}</template>
