@@ -9,7 +9,7 @@ function buildIcon(iconNameOrImageUrl) {
       <img src="{{iconNameOrImageUrl}}" aria-hidden="true"/>
     </template>
   } else {
-    return <template>{{icon iconNameOrImageUrl }}</template>
+    return <template>{{icon iconNameOrImageUrl}}</template>
   }
 }
 
@@ -35,10 +35,10 @@ export default {
           const iconComponent = <template>
             <li class="custom-header-icon-link {{className}} {{viewClass}} {{isLastLink}}">
               <a class="icon btn-flat"
-              href="{{href}}"
-              title="{{title}}"
-              target="{{target}}"
-              rel="{{rel}}"
+              href={{href}}
+              title={{title}}
+              target={{target}}
+              rel={{rel}}
               >
                 {{iconTemplate}}
               </a>
