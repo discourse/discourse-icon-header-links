@@ -3,13 +3,14 @@ import icon from "discourse-common/helpers/d-icon";
 import { dasherize } from "@ember/string";
 import isValidUrl from "../lib/isValidUrl";
 
-function buildIcon(iconNameOrImageUrl) {
+function buildIcon(iconNameOrImageUrl, title) {
   if (isValidUrl(iconNameOrImageUrl)) {
     return <template>
       <img src="{{iconNameOrImageUrl}}" aria-hidden="true"/>
+      <span class="sr-only">{{title}}</span>
     </template>
   } else {
-    return <template>{{icon iconNameOrImageUrl}}</template>
+    return <template>{{icon iconNameOrImageUrl label=title}}</template>
   }
 }
 
@@ -23,7 +24,7 @@ export default {
         splitLinks.forEach((link, index, links) => {
           const fragments = link.split(",").map((fragment) => fragment.trim());
           const title = fragments[0];
-          const iconTemplate = buildIcon(fragments[1]);
+          const iconTemplate = buildIcon(fragments[1], title);
           const href = fragments[2];
           const className = `header-icon-${dasherize(fragments[0])}`;
           const viewClass = fragments[3].toLowerCase();
