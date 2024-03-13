@@ -31,7 +31,7 @@ export default {
           const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
           const rel = target ? "noopener" : "";
           const isLastLink =
-            link === links[links.length - 1] ? ".last-custom-icon" : "";
+            link === links[links.length - 1] ? "last-custom-icon" : "";
 
           const iconComponent = <template>
             <li class="custom-header-icon-link {{className}} {{viewClass}} {{isLastLink}}">
