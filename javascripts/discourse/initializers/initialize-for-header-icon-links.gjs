@@ -1,22 +1,16 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { iconNode } from "discourse-common/lib/icon-library";
+import icon from "discourse-common/helpers/d-icon";
 import { dasherize } from "@ember/string";
 import isValidUrl from "../lib/isValidUrl";
-import { h } from "virtual-dom";
 
-function buildIcon(icon) {
-  if (isValidUrl(icon)) {
-    return h(
-      "img",
-      {
-        attributes: {
-          src: icon,
-        },
-      },
-      ""
-    );
+function buildIcon(iconNameOrImageUrl, title) {
+  if (isValidUrl(iconNameOrImageUrl)) {
+    return <template>
+      <img src="{{iconNameOrImageUrl}}" aria-hidden="true"/>
+      <span class="sr-only">{{title}}</span>
+    </template>
   } else {
-    return iconNode(icon.toLowerCase());
+    return <template>{{icon iconNameOrImageUrl label=title}}</template>
   }
 }
 
@@ -30,32 +24,31 @@ export default {
         splitLinks.forEach((link, index, links) => {
           const fragments = link.split(",").map((fragment) => fragment.trim());
           const title = fragments[0];
-          const icon = buildIcon(fragments[1]);
+          const iconTemplate = buildIcon(fragments[1], title);
           const href = fragments[2];
           const className = `header-icon-${dasherize(fragments[0])}`;
           const viewClass = fragments[3].toLowerCase();
           const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
           const rel = target ? "noopener" : "";
           const isLastLink =
-            link === links[links.length - 1] ? ".last-custom-icon" : "";
-          const selector = `li.custom-header-icon-link.${className}.${viewClass}${isLastLink}`;
+            link === links[links.length - 1] ? "last-custom-icon" : "";
 
-          api.decorateWidget("header-icons:before", (helper) => {
-            return helper.h(selector, [
-              helper.h(
-                "a.icon.btn-flat",
-                {
-                  href,
-                  title,
-                  target,
-                  attributes: {
-                    rel,
-                  },
-                },
-                icon
-              ),
-            ]);
-          });
+          const iconComponent = <template>
+            <li class="custom-header-icon-link {{className}} {{viewClass}} {{isLastLink}}">
+              <a class="icon btn-flat"
+              href={{href}}
+              title={{title}}
+              target={{target}}
+              rel={{rel}}
+              >
+                {{iconTemplate}}
+              </a>
+            </li>
+          </template>
+
+          const beforeIcon = ['chat', 'search', 'hamburger', 'user-menu']
+
+          api.headerIcons.add(title, iconComponent, { before: beforeIcon })
         });
       } catch (error) {
         // eslint-disable-next-line no-console
