@@ -1,16 +1,16 @@
+import { dasherize } from "@ember/string";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import icon from "discourse-common/helpers/d-icon";
-import { dasherize } from "@ember/string";
 import isValidUrl from "../lib/isValidUrl";
 
 function buildIcon(iconNameOrImageUrl, title) {
   if (isValidUrl(iconNameOrImageUrl)) {
     return <template>
-      <img src="{{iconNameOrImageUrl}}" aria-hidden="true"/>
+      <img src={{iconNameOrImageUrl}} aria-hidden="true" />
       <span class="sr-only">{{title}}</span>
-    </template>
+    </template>;
   } else {
-    return <template>{{icon iconNameOrImageUrl label=title}}</template>
+    return <template>{{icon iconNameOrImageUrl label=title}}</template>;
   }
 }
 
@@ -34,21 +34,27 @@ export default {
             link === links[links.length - 1] ? "last-custom-icon" : "";
 
           const iconComponent = <template>
-            <li class="custom-header-icon-link {{className}} {{viewClass}} {{isLastLink}}">
-              <a class="icon btn-flat"
-              href={{href}}
-              title={{title}}
-              target={{target}}
-              rel={{rel}}
+            <li
+              class="custom-header-icon-link
+                {{className}}
+                {{viewClass}}
+                {{isLastLink}}"
+            >
+              <a
+                class="icon btn-flat"
+                href={{href}}
+                title={{title}}
+                target={{target}}
+                rel={{rel}}
               >
                 {{iconTemplate}}
               </a>
             </li>
-          </template>
+          </template>;
 
-          const beforeIcon = ['chat', 'search', 'hamburger', 'user-menu']
+          const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
 
-          api.headerIcons.add(title, iconComponent, { before: beforeIcon })
+          api.headerIcons.add(title, iconComponent, { before: beforeIcon });
         });
       } catch (error) {
         // eslint-disable-next-line no-console
