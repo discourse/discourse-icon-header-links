@@ -41,7 +41,7 @@ export default {
                 {{isLastLink}}"
             >
               <a
-                class="icon btn-flat"
+                class="btn no-text icon btn-flat"
                 href={{href}}
                 title={{title}}
                 target={{target}}
