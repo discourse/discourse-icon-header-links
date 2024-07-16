@@ -8,7 +8,7 @@ module(
       const settings = new Map(
         Object.entries({
           Header_links:
-            "Desktop mobile link, fab-facebook, https://facebook.com, vdm, blank|Mobile-only link, fab-twitter, https://twitter.com, vmo, blank",
+            "Desktop and mobile link, fab-facebook, https://facebook.com, vdm, blank|Mobile-only link, fab-twitter, https://twitter.com, vmo, blank",
         })
       );
 
@@ -16,7 +16,7 @@ module(
 
       const expectedResult = new Map(
         Object.entries({
-          Header_links: [
+          header_links: [
             {
               icon: "fab-facebook",
               title: "Desktop and mobile link",

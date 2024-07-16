@@ -27,6 +27,8 @@ export default function migrate(settings) {
     return newLink;
   });
 
-  settings.set("Header_links", newSetting);
+  settings.delete("Header_links");
+
+  settings.set("header_links", newSetting);
   return settings;
 }

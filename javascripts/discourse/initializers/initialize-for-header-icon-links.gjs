@@ -21,7 +21,7 @@ export default {
     withPluginApi("0.8.41", (api) => {
       try {
         const site = api.container.lookup("service:site");
-        let links = settings.Header_links;
+        let links = settings.header_links;
         if (site.mobileView) {
           links = links.filter(
             (link) => link.view === "vmo" || link.view === "vdm"

@@ -9,7 +9,7 @@ Svg_icons:
   default: "fab-facebook|fab-twitter"
   description:
     en: "Include FontAwesome 5 icon classes for each icon used in the list."
-Header_links:
+header_links:
   type: objects
   default:
     - title: "Desktop and mobile link"
