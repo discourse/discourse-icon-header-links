@@ -1,4 +1,5 @@
 import { dasherize } from "@ember/string";
+import concatClass from "discourse/helpers/concat-class";
 import { withPluginApi } from "discourse/lib/plugin-api";
 import icon from "discourse-common/helpers/d-icon";
 import isValidUrl from "../lib/isValidUrl";
@@ -19,31 +20,39 @@ export default {
   initialize() {
     withPluginApi("0.8.41", (api) => {
       try {
-        const splitLinks = settings.Header_links.split("|").filter(Boolean);
+        const site = api.container.lookup("service:site");
+        let links = settings.Header_links;
+        if (site.mobileView) {
+          links = links.filter(
+            (link) => link.view === "vmo" || link.view === "vdm"
+          );
+        } else {
+          links = links.filter(
+            (link) => link.view === "vdo" || link.view === "vdm"
+          );
+        }
 
-        splitLinks.forEach((link, index, links) => {
-          const fragments = link.split(",").map((fragment) => fragment.trim());
-          const title = fragments[0];
-          const iconTemplate = buildIcon(fragments[1], title);
-          const href = fragments[2];
-          const className = `header-icon-${dasherize(fragments[0])}`;
-          const viewClass = fragments[3].toLowerCase();
-          const target = fragments[4].toLowerCase() === "blank" ? "_blank" : "";
-          const rel = target ? "noopener" : "";
+        links.forEach((link, index) => {
+          const iconTemplate = buildIcon(link.icon, link.title);
+          const className = `header-icon-${dasherize(link.title)}`;
+          const target = link.target === "blank" ? "_blank" : "";
+          const rel = link.target ? "noopener" : "";
           const isLastLink =
-            link === links[links.length - 1] ? "last-custom-icon" : "";
+            index === links.length - 1 ? "last-custom-icon" : "";
 
           const iconComponent = <template>
             <li
-              class="custom-header-icon-link
-                {{className}}
-                {{viewClass}}
-                {{isLastLink}}"
+              class={{concatClass
+                "custom-header-icon-link"
+                className
+                link.view
+                isLastLink
+              }}
             >
               <a
                 class="btn no-text icon btn-flat"
-                href={{href}}
-                title={{title}}
+                href={{link.url}}
+                title={{link.title}}
                 target={{target}}
                 rel={{rel}}
               >
@@ -54,7 +63,9 @@ export default {
 
           const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
 
-          api.headerIcons.add(title, iconComponent, { before: beforeIcon });
+          api.headerIcons.add(link.title, iconComponent, {
+            before: beforeIcon,
+          });
         });
       } catch (error) {
         // eslint-disable-next-line no-console
