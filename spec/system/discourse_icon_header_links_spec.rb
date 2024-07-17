@@ -1,0 +1,51 @@
+RSpec.describe "Discourse icon header links", system: true do
+  let(:theme) { Fabricate(:theme) }
+  let!(:component) { upload_theme_component(parent_theme_id: theme.id) }
+
+  before { theme.set_default! }
+
+  context "when in desktop" do
+    it "renders the correct icon" do
+      visit("/")
+
+      expect(
+        page.find(
+          ".custom-header-icon-link.header-icon-desktop-and-mobile-link.vdm.last-custom-icon",
+        ),
+      ).to have_link(
+        title: "Desktop and mobile link",
+        href: "https://facebook.com",
+        target: "_blank",
+      )
+      expect(
+        page.find(
+          ".custom-header-icon-link.header-icon-desktop-and-mobile-link.vdm.last-custom-icon",
+        ),
+      ).to have_selector(".d-icon-fab-facebook")
+    end
+  end
+
+  context "when in mobile", mobile: true do
+    it "renders the correct icon" do
+      visit("/")
+
+      expect(
+        page.find(".custom-header-icon-link.header-icon-desktop-and-mobile-link.vdm"),
+      ).to have_link(
+        title: "Desktop and mobile link",
+        href: "https://facebook.com",
+        target: "_blank",
+      )
+      expect(
+        page.find(".custom-header-icon-link.header-icon-desktop-and-mobile-link.vdm"),
+      ).to have_selector(".d-icon-fab-facebook")
+
+      expect(
+        page.find(".custom-header-icon-link.header-icon-mobile-only-link.vmo.last-custom-icon"),
+      ).to have_link(title: "Mobile-only link", href: "https://twitter.com", target: "_blank")
+      expect(
+        page.find(".custom-header-icon-link.header-icon-mobile-only-link.vmo.last-custom-icon"),
+      ).to have_selector(".d-icon-fab-twitter")
+    end
+  end
+end

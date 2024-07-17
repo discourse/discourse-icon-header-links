@@ -1,0 +1,27 @@
+en:
+  theme_metadata:
+    settings:
+      header_links:
+        description: Custom links to be displayed in the header
+        schema:
+          properties:
+            title:
+              label: Title
+              description: The title attribute for the link
+            icon:
+              label: Icon
+              description: The icon used for the link
+            url:
+              label: URL
+              description: The URL for the link
+            view:
+              label: View
+              description: |
+                vdm = desktop and mobile
+                vdo = desktop only
+                vmo = mobile only
+            target:
+              label: Target
+              description: |
+                blank = opens in a new tab
+                self = opens in the same tab

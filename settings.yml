@@ -1,21 +1,3 @@
-Header_links:
-  type: list
-  default: "Desktop mobile link, fab-facebook, https://facebook.com, vdm, blank|Mobile-only link, fab-twitter, https://twitter.com, vmo, blank"
-  description:
-    en: "Comma delimited in this order: <br>
-      <b>title, icon, URL, view, target</b>
-      <br>
-      <br>
-      <b>title</b>: the desired title you want the link to have (when hovered). <br>
-      <b>icon</b>: the icon you want the link to have. <br>
-      <b>URL</b>: the desired URL you want the link to point to. <br>
-      <b>View</b>:
-      <ul>
-      <li>visible on both desktop and mobile devices (vdm)</li>
-      <li>Desktop only (vdo).</li>
-      <li>mobile only (vmo).</li>
-      </ul>
-      <b>Target</b>: same tab (self) or new tab (blank)."
 add_whitespace:
   type: bool
   default: false
@@ -27,3 +9,49 @@ Svg_icons:
   default: "fab-facebook|fab-twitter"
   description:
     en: "Include FontAwesome 5 icon classes for each icon used in the list."
+header_links:
+  type: objects
+  default:
+    - title: "Desktop and mobile link"
+      icon: "fab-facebook"
+      url: "https://facebook.com"
+      view: "vdm"
+      target: "blank"
+    - title: "Mobile-only link"
+      icon: "fab-twitter"
+      url: "https://twitter.com"
+      view: "vmo"
+      target: "blank"
+  schema:
+    name: "link"
+    properties:
+      title:
+        type: string
+        required: true
+        validations:
+          min_length: 1
+          max_length: 1000
+      icon:
+        type: string
+        required: true
+        validations:
+          min_length: 1
+          max_length: 100
+      url:
+        type: string
+        required: true
+        validations:
+          min_length: 1
+          max_length: 2048
+          url: true
+      view:
+        type: enum
+        choices:
+          - vdm
+          - vdo
+          - vmo
+      target:
+        type: enum
+        choices:
+          - blank
+          - self
