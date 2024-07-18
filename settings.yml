@@ -43,7 +43,6 @@ header_links:
         validations:
           min_length: 1
           max_length: 2048
-          url: true
       view:
         type: enum
         choices:
