@@ -14,6 +14,9 @@ en:
             url:
               label: URL
               description: The URL for the link
+            width:
+              label: Width
+              description: Allows to set the width of the icon
             view:
               label: View
               description: |
