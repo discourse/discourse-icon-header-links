@@ -1,6 +1,7 @@
 import { dasherize } from "@ember/string";
 import concatClass from "discourse/helpers/concat-class";
 import { withPluginApi } from "discourse/lib/plugin-api";
+import { escapeExpression } from "discourse/lib/utilities";
 import icon from "discourse-common/helpers/d-icon";
 import isValidUrl from "../lib/isValidUrl";
 
@@ -40,6 +41,11 @@ export default {
           const isLastLink =
             index === links.length - 1 ? "last-custom-icon" : "";
 
+          let style = "";
+          if (link.width) {
+            style = `width: ${escapeExpression(link.width)}px`;
+          }
+
           const iconComponent = <template>
             <li
               class={{concatClass
@@ -55,6 +61,7 @@ export default {
                 title={{link.title}}
                 target={{target}}
                 rel={{rel}}
+                style={{style}}
               >
                 {{iconTemplate}}
               </a>

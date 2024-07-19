@@ -50,6 +50,9 @@ header_links:
           - vdm
           - vdo
           - vmo
+      width:
+        type: integer
+        required: false
       target:
         type: enum
         choices:

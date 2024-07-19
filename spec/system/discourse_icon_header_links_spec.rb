@@ -25,6 +25,32 @@ RSpec.describe "Discourse icon header links", system: true do
     end
   end
 
+  context "when using the width attribute" do
+    before do
+      component.update_setting(
+        :header_links,
+        [
+          {
+            icon: "fab-facebook",
+            url: "https://facebook.com",
+            title: "Desktop and mobile link",
+            width: 200,
+            view: "vdm",
+          },
+        ],
+      )
+      component.save!
+    end
+
+    it "renders the icon with the correct width" do
+      visit("/")
+
+      expect(page.find(".custom-header-icon-link .icon").style("width")).to eq(
+        { "width" => "200px" },
+      )
+    end
+  end
+
   context "when in mobile", mobile: true do
     it "renders the correct icon" do
       visit("/")
