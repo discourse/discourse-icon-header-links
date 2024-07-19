@@ -36,7 +36,7 @@ header_links:
         required: true
         validations:
           min_length: 1
-          max_length: 100
+          max_length: 2048
       url:
         type: string
         required: true
