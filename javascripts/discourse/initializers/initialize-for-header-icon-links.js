@@ -30,37 +30,21 @@ export default {
               link === links[links.length - 1] ? ".last-custom-icon" : "";
             const selector = `li.custom-header-icon-link.${className}.${viewClass}${isLastLink}`;
 
-            api.headerIcons.add(title, () => {
-              return helper.h(
-                "a.icon.btn-flat",
-                {
-                  href,
-                  title,
-                  target,
-                  attributes: {
-                    rel,
+            api.decorateWidget("header-icons:before", (helper) => {
+              return helper.h(selector, [
+                helper.h(
+                  "a.icon.btn-flat", {
+                    href,
+                    title,
+                    target,
+                    attributes: {
+                      rel,
+                    },
                   },
-                },
-                icon
-              );
-            }, { before: "search" });
-            
-
-            // api.decorateWidget("header-icons:before", (helper) => {
-            //   return helper.h(selector, [
-            //     helper.h(
-            //       "a.icon.btn-flat", {
-            //         href,
-            //         title,
-            //         target,
-            //         attributes: {
-            //           rel,
-            //         },
-            //       },
-            //       icon
-            //     ),
-            //   ]);
-            // });
+                  icon
+                ),
+              ]);
+            });
           });
         } catch (error) {
           console.error(error);
