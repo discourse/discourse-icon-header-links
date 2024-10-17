@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.describe "Discourse icon header links", system: true do
   let(:theme) { Fabricate(:theme) }
   let!(:component) { upload_theme_component(parent_theme_id: theme.id) }
