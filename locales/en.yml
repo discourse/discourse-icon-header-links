@@ -1,6 +1,10 @@
 en:
   theme_metadata:
     settings:
+      add_whitespace:
+        description: "If checked, this will add some whitespace between the default Discourse header icons and the custom icons added via this component"
+      Svg_icons:
+        description: "Include FontAwesome 6 icon classes for each icon used in the list."
       header_links:
         description: Custom links to be displayed in the header
         schema:
