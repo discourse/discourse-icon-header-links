@@ -1,14 +1,10 @@
 add_whitespace:
   type: bool
   default: false
-  description:
-    en: "If checked, this will add some whitespace between the default Discourse header icons and the custom icons added via this component"
 Svg_icons:
   type: "list"
   list_type: "compact"
   default: "fab-facebook|fab-twitter"
-  description:
-    en: "Include FontAwesome 5 icon classes for each icon used in the list."
 header_links:
   type: objects
   default:
