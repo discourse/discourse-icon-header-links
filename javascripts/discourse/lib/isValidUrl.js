@@ -5,7 +5,7 @@ export default function isValidUrl(string) {
     if (url) {
       return true;
     }
-  } catch (_) {
+  } catch {
     return false;
   }
 
