@@ -37,6 +37,7 @@ module(
               target: "blank",
             },
           ],
+          Svg_icons: "fab-facebook|fab-twitter|fab fa-cog|user-friends",
         })
       );
 
@@ -74,6 +75,7 @@ module(
               target: "blank",
             },
           ],
+          svg_icons: "fab-facebook|fab-twitter|fab-gear|user-group",
         })
       );
 

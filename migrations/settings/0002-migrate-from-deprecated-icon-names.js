@@ -1,18 +1,28 @@
 export default function migrate(settings) {
-  const oldSetting = settings.get("header_links");
+  const oldHeaderLinksSetting = settings.get("header_links");
 
-  if (!oldSetting) {
-    return settings;
+  if (oldHeaderLinksSetting) {
+    const newHeaderLinksSetting = oldHeaderLinksSetting.map((link) => {
+      if (link.icon) {
+        link.icon = convertIconName(link.icon);
+      }
+      return link;
+    });
+
+    settings.set("header_links", newHeaderLinksSetting);
   }
 
-  const newSetting = oldSetting.map((link) => {
-    if (link.icon) {
-      link.icon = convertIconName(link.icon);
-    }
-    return link;
-  });
+  const oldSvgIconsSetting = settings.get("Svg_icons");
+  if (oldSvgIconsSetting) {
+    const newSvgIconsSetting = oldSvgIconsSetting
+      .split("|")
+      .map(convertIconName)
+      .join("|");
 
-  settings.set("header_links", newSetting);
+    settings.set("svg_icons", newSvgIconsSetting);
+    settings.delete("Svg_icons");
+  }
+
   return settings;
 }
 
