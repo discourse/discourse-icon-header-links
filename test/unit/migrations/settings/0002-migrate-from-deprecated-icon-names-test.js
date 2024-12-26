@@ -81,5 +81,51 @@ module(
 
       assert.deepEqual(Array.from(result), Array.from(expectedResult));
     });
+
+    test("migrate empty settings", function (assert) {
+      const settings = new Map(Object.entries({}));
+      const result = migrate(settings);
+      assert.deepEqual(Array.from(result), Array.from(settings));
+    });
+
+    test("migrate same settings", function (assert) {
+      const settings = new Map(
+        Object.entries({
+          header_links: [
+            {
+              icon: "fab-facebook",
+              title: "Desktop and mobile link",
+              url: "https://facebook.com",
+              view: "vdm",
+              target: "blank",
+            },
+            {
+              icon: "fab-twitter",
+              title: "Mobile-only link",
+              url: "https://twitter.com",
+              view: "vmo",
+              target: "blank",
+            },
+            {
+              icon: "fab-gear",
+              title: "More settings",
+              url: "https://example.com",
+              view: "vmo",
+              target: "blank",
+            },
+            {
+              icon: "user-group",
+              title: "Groups",
+              url: "https://example.com",
+              view: "vmo",
+              target: "blank",
+            },
+          ],
+          svg_icons: "fab-facebook|fab-twitter|fab-gear|user-group",
+        })
+      );
+      const result = migrate(settings);
+      assert.deepEqual(Array.from(result), Array.from(settings));
+    });
   }
 );
