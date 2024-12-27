@@ -1,7 +1,7 @@
 add_whitespace:
   type: bool
   default: false
-Svg_icons:
+svg_icons:
   type: "list"
   list_type: "compact"
   default: "fab-facebook|fab-twitter"
