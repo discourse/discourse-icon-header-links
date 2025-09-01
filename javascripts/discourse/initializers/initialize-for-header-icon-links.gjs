@@ -23,17 +23,16 @@ export default {
       try {
         const site = api.container.lookup("service:site");
         let links = settings.header_links;
-        if (site.mobileView) {
-          links = links.filter(
-            (link) => link.view === "vmo" || link.view === "vdm"
-          );
-        } else {
-          links = links.filter(
-            (link) => link.view === "vdo" || link.view === "vdm"
-          );
-        }
 
         links.forEach((link, index) => {
+          const shouldRender = () => {
+            if (site.mobileView) {
+              return link.view === "vmo" || link.view === "vdm";
+            } else {
+              return link.view === "vdo" || link.view === "vdm";
+            }
+          };
+
           const iconTemplate = buildIcon(link.icon, link.title);
           const className = `header-icon-${dasherize(link.title)}`;
           const target = link.target === "blank" ? "_blank" : "";
@@ -47,25 +46,27 @@ export default {
           }
 
           const iconComponent = <template>
-            <li
-              class={{concatClass
-                "custom-header-icon-link"
-                className
-                link.view
-                isLastLink
-              }}
-            >
-              <a
-                class="btn no-text icon btn-flat"
-                href={{link.url}}
-                title={{link.title}}
-                target={{target}}
-                rel={{rel}}
-                style={{style}}
+            {{#if (shouldRender)}}
+              <li
+                class={{concatClass
+                  "custom-header-icon-link"
+                  className
+                  link.view
+                  isLastLink
+                }}
               >
-                {{iconTemplate}}
-              </a>
-            </li>
+                <a
+                  class="btn no-text icon btn-flat"
+                  href={{link.url}}
+                  title={{link.title}}
+                  target={{target}}
+                  rel={{rel}}
+                  style={{style}}
+                >
+                  {{iconTemplate}}
+                </a>
+              </li>
+            {{/if}}
           </template>;
 
           const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
