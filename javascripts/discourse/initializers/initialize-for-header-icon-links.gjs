@@ -1,25 +1,9 @@
-import Component from "@glimmer/component";
-import { service } from "@ember/service";
-import { dasherize } from "@ember/string";
-import { htmlSafe } from "@ember/template";
-import concatClass from "discourse/helpers/concat-class";
-import icon from "discourse/helpers/d-icon";
+import curryComponent from "ember-curry-component";
+import { getOwnerWithFallback } from "discourse/lib/get-owner";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { escapeExpression } from "discourse/lib/utilities";
-import isValidUrl from "../lib/isValidUrl";
+import CustomHeaderIcon from "../components/custom-header-icon";
 
-const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
-
-function buildIconTemplate(iconNameOrImageUrl, title) {
-  if (isValidUrl(iconNameOrImageUrl)) {
-    return <template>
-      <img src={{iconNameOrImageUrl}} aria-hidden="true" />
-      <span class="sr-only">{{title}}</span>
-    </template>;
-  }
-
-  return <template>{{icon iconNameOrImageUrl label=title}}</template>;
-}
+const BEFORE_ICONS = ["chat", "search", "hamburger", "user-menu"];
 
 export default {
   name: "header-icon-links",
@@ -29,61 +13,17 @@ export default {
         const links = settings.header_links || [];
 
         links.forEach((link) => {
-          const iconTemplate = buildIconTemplate(link.icon, link.title);
-          const className = `header-icon-${dasherize(link.title)}`;
-          const target = link.target === "blank" ? "_blank" : "";
-          const rel = link.target ? "noopener" : "";
-
-          const numericWidth = Number(link.width);
-          const style = Number.isFinite(numericWidth)
-            ? htmlSafe(`width: ${escapeExpression(numericWidth)}px`)
-            : undefined;
-
-          const iconComponent = class extends Component {
-            static shouldRender(args, context) {
-              return context.site.mobileView
-                ? link.view === "vmo" || link.view === "vdm"
-                : link.view === "vdo" || link.view === "vdm";
+          api.headerIcons.add(
+            link.title,
+            curryComponent(
+              CustomHeaderIcon,
+              { link, links },
+              getOwnerWithFallback()
+            ),
+            {
+              before: BEFORE_ICONS,
             }
-
-            @service site;
-
-            get isLastLink() {
-              const visibleLinks = links.filter((item) =>
-                this.site.mobileView
-                  ? item.view === "vmo" || item.view === "vdm"
-                  : item.view === "vdo" || item.view === "vdm"
-              );
-
-              return link === visibleLinks.at(-1);
-            }
-
-            <template>
-              <li
-                class={{concatClass
-                  "custom-header-icon-link"
-                  className
-                  link.view
-                  (if this.isLastLink "last-custom-icon")
-                }}
-              >
-                <a
-                  class="btn no-text icon btn-flat"
-                  href={{link.url}}
-                  title={{link.title}}
-                  target={{target}}
-                  rel={{rel}}
-                  style={{style}}
-                >
-                  {{iconTemplate}}
-                </a>
-              </li>
-            </template>
-          };
-
-          api.headerIcons.add(link.title, iconComponent, {
-            before: beforeIcon,
-          });
+          );
         });
       } catch (error) {
         // eslint-disable-next-line no-console
