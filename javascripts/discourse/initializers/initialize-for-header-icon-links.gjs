@@ -1,4 +1,6 @@
+import Component from "@glimmer/component";
 import { dasherize } from "@ember/string";
+import { htmlSafe } from "@ember/template";
 import concatClass from "discourse/helpers/concat-class";
 import icon from "discourse/helpers/d-icon";
 import { withPluginApi } from "discourse/lib/plugin-api";
@@ -19,19 +21,9 @@ function buildIcon(iconNameOrImageUrl, title) {
 export default {
   name: "header-icon-links",
   initialize() {
-    withPluginApi("0.8.41", (api) => {
+    withPluginApi((api) => {
       try {
-        const site = api.container.lookup("service:site");
         let links = settings.header_links;
-        if (site.mobileView) {
-          links = links.filter(
-            (link) => link.view === "vmo" || link.view === "vdm"
-          );
-        } else {
-          links = links.filter(
-            (link) => link.view === "vdo" || link.view === "vdm"
-          );
-        }
 
         links.forEach((link, index) => {
           const iconTemplate = buildIcon(link.icon, link.title);
@@ -41,32 +33,42 @@ export default {
           const isLastLink =
             index === links.length - 1 ? "last-custom-icon" : "";
 
-          let style = "";
-          if (link.width) {
-            style = `width: ${escapeExpression(link.width)}px`;
+          let style;
+          if (link.width && !isNaN(link.width)) {
+            style = htmlSafe(`width: ${escapeExpression(link.width)}px`);
           }
 
-          const iconComponent = <template>
-            <li
-              class={{concatClass
-                "custom-header-icon-link"
-                className
-                link.view
-                isLastLink
-              }}
-            >
-              <a
-                class="btn no-text icon btn-flat"
-                href={{link.url}}
-                title={{link.title}}
-                target={{target}}
-                rel={{rel}}
-                style={{style}}
+          const iconComponent = class extends Component {
+            static shouldRender(args, context) {
+              if (context.site.mobileView) {
+                return link.view === "vmo" || link.view === "vdm";
+              } else {
+                return link.view === "vdo" || link.view === "vdm";
+              }
+            }
+
+            <template>
+              <li
+                class={{concatClass
+                  "custom-header-icon-link"
+                  className
+                  link.view
+                  isLastLink
+                }}
               >
-                {{iconTemplate}}
-              </a>
-            </li>
-          </template>;
+                <a
+                  class="btn no-text icon btn-flat"
+                  href={{link.url}}
+                  title={{link.title}}
+                  target={{target}}
+                  rel={{rel}}
+                  style={{style}}
+                >
+                  {{iconTemplate}}
+                </a>
+              </li>
+            </template>
+          };
 
           const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
 
