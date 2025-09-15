@@ -7,15 +7,17 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import { escapeExpression } from "discourse/lib/utilities";
 import isValidUrl from "../lib/isValidUrl";
 
-function buildIcon(iconNameOrImageUrl, title) {
+const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
+
+function buildIconTemplate(iconNameOrImageUrl, title) {
   if (isValidUrl(iconNameOrImageUrl)) {
     return <template>
       <img src={{iconNameOrImageUrl}} aria-hidden="true" />
       <span class="sr-only">{{title}}</span>
     </template>;
-  } else {
-    return <template>{{icon iconNameOrImageUrl label=title}}</template>;
   }
+
+  return <template>{{icon iconNameOrImageUrl label=title}}</template>;
 }
 
 export default {
@@ -23,28 +25,26 @@ export default {
   initialize() {
     withPluginApi((api) => {
       try {
-        let links = settings.header_links;
+        const links = settings.header_links || [];
 
         links.forEach((link, index) => {
-          const iconTemplate = buildIcon(link.icon, link.title);
+          const iconTemplate = buildIconTemplate(link.icon, link.title);
           const className = `header-icon-${dasherize(link.title)}`;
           const target = link.target === "blank" ? "_blank" : "";
           const rel = link.target ? "noopener" : "";
           const isLastLink =
             index === links.length - 1 ? "last-custom-icon" : "";
 
-          let style;
-          if (link.width && !isNaN(link.width)) {
-            style = htmlSafe(`width: ${escapeExpression(link.width)}px`);
-          }
+          const numericWidth = Number(link.width);
+          const style = Number.isFinite(numericWidth)
+            ? htmlSafe(`width: ${escapeExpression(numericWidth)}px`)
+            : undefined;
 
           const iconComponent = class extends Component {
             static shouldRender(args, context) {
-              if (context.site.mobileView) {
-                return link.view === "vmo" || link.view === "vdm";
-              } else {
-                return link.view === "vdo" || link.view === "vdm";
-              }
+              return context.site.mobileView
+                ? link.view === "vmo" || link.view === "vdm"
+                : link.view === "vdo" || link.view === "vdm";
             }
 
             <template>
@@ -69,8 +69,6 @@ export default {
               </li>
             </template>
           };
-
-          const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
 
           api.headerIcons.add(link.title, iconComponent, {
             before: beforeIcon,
