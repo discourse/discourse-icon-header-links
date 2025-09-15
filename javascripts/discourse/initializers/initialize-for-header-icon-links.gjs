@@ -1,4 +1,5 @@
 import Component from "@glimmer/component";
+import { service } from "@ember/service";
 import { dasherize } from "@ember/string";
 import { htmlSafe } from "@ember/template";
 import concatClass from "discourse/helpers/concat-class";
@@ -27,13 +28,11 @@ export default {
       try {
         const links = settings.header_links || [];
 
-        links.forEach((link, index) => {
+        links.forEach((link) => {
           const iconTemplate = buildIconTemplate(link.icon, link.title);
           const className = `header-icon-${dasherize(link.title)}`;
           const target = link.target === "blank" ? "_blank" : "";
           const rel = link.target ? "noopener" : "";
-          const isLastLink =
-            index === links.length - 1 ? "last-custom-icon" : "";
 
           const numericWidth = Number(link.width);
           const style = Number.isFinite(numericWidth)
@@ -47,13 +46,25 @@ export default {
                 : link.view === "vdo" || link.view === "vdm";
             }
 
+            @service site;
+
+            get isLastLink() {
+              const visibleLinks = links.filter((item) =>
+                this.site.mobileView
+                  ? item.view === "vmo" || item.view === "vdm"
+                  : item.view === "vdo" || item.view === "vdm"
+              );
+
+              return link === visibleLinks.at(-1);
+            }
+
             <template>
               <li
                 class={{concatClass
                   "custom-header-icon-link"
                   className
                   link.view
-                  isLastLink
+                  (if this.isLastLink "last-custom-icon")
                 }}
               >
                 <a
