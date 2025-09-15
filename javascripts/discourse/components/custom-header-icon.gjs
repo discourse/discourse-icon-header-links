@@ -8,27 +8,26 @@ import dasherize from "discourse/helpers/dasherize";
 import { escapeExpression } from "discourse/lib/utilities";
 import isValidUrl from "../lib/isValidUrl";
 
+const MOBILE_VIEWS = new Set(["vmo", "vdm"]);
+const DESKTOP_VIEWS = new Set(["vdo", "vdm"]);
+
+function shouldRenderViewMode(view, isMobile) {
+  return isMobile ? MOBILE_VIEWS.has(view) : DESKTOP_VIEWS.has(view);
+}
+
 export default class CustomHeaderIcon extends Component {
   static shouldRender(args, context) {
-    return context.site.mobileView
-      ? args.link.view === "vmo" || args.link.view === "vdm"
-      : args.link.view === "vdo" || args.link.view === "vdm";
+    return shouldRenderViewMode(args.link.view, context.site.mobileView);
   }
 
   @service site;
 
-  get className() {
+  get iconClassName() {
     return `header-icon-${dasherize(this.args.link.title)}`;
   }
 
   get isLastLink() {
-    const visibleLinks = this.args.links.filter((item) =>
-      this.site.mobileView
-        ? item.view === "vmo" || item.view === "vdm"
-        : item.view === "vdo" || item.view === "vdm"
-    );
-
-    return this.args.link === visibleLinks.at(-1);
+    return this.args.link === this.visibleLinks.at(-1);
   }
 
   get style() {
@@ -38,11 +37,17 @@ export default class CustomHeaderIcon extends Component {
       : undefined;
   }
 
+  get visibleLinks() {
+    return this.args.links.filter((link) =>
+      shouldRenderViewMode(link.view, this.site.mobileView)
+    );
+  }
+
   <template>
     <li
       class={{concatClass
         "custom-header-icon-link"
-        this.className
+        this.iconClassName
         @link.view
         (if this.isLastLink "last-custom-icon")
       }}
