@@ -1,78 +1,29 @@
-import { dasherize } from "@ember/string";
-import concatClass from "discourse/helpers/concat-class";
-import icon from "discourse/helpers/d-icon";
+import curryComponent from "ember-curry-component";
+import { getOwnerWithFallback } from "discourse/lib/get-owner";
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { escapeExpression } from "discourse/lib/utilities";
-import isValidUrl from "../lib/isValidUrl";
+import CustomHeaderIcon from "../components/custom-header-icon";
 
-function buildIcon(iconNameOrImageUrl, title) {
-  if (isValidUrl(iconNameOrImageUrl)) {
-    return <template>
-      <img src={{iconNameOrImageUrl}} aria-hidden="true" />
-      <span class="sr-only">{{title}}</span>
-    </template>;
-  } else {
-    return <template>{{icon iconNameOrImageUrl label=title}}</template>;
-  }
-}
+const BEFORE_ICONS = ["chat", "search", "hamburger", "user-menu"];
 
 export default {
   name: "header-icon-links",
   initialize() {
-    withPluginApi("0.8.41", (api) => {
+    withPluginApi((api) => {
       try {
-        const site = api.container.lookup("service:site");
-        let links = settings.header_links;
-        if (site.mobileView) {
-          links = links.filter(
-            (link) => link.view === "vmo" || link.view === "vdm"
+        const links = settings.header_links || [];
+
+        links.forEach((link) => {
+          api.headerIcons.add(
+            link.title,
+            curryComponent(
+              CustomHeaderIcon,
+              { link, links },
+              getOwnerWithFallback()
+            ),
+            {
+              before: BEFORE_ICONS,
+            }
           );
-        } else {
-          links = links.filter(
-            (link) => link.view === "vdo" || link.view === "vdm"
-          );
-        }
-
-        links.forEach((link, index) => {
-          const iconTemplate = buildIcon(link.icon, link.title);
-          const className = `header-icon-${dasherize(link.title)}`;
-          const target = link.target === "blank" ? "_blank" : "";
-          const rel = link.target ? "noopener" : "";
-          const isLastLink =
-            index === links.length - 1 ? "last-custom-icon" : "";
-
-          let style = "";
-          if (link.width) {
-            style = `width: ${escapeExpression(link.width)}px`;
-          }
-
-          const iconComponent = <template>
-            <li
-              class={{concatClass
-                "custom-header-icon-link"
-                className
-                link.view
-                isLastLink
-              }}
-            >
-              <a
-                class="btn no-text icon btn-flat"
-                href={{link.url}}
-                title={{link.title}}
-                target={{target}}
-                rel={{rel}}
-                style={{style}}
-              >
-                {{iconTemplate}}
-              </a>
-            </li>
-          </template>;
-
-          const beforeIcon = ["chat", "search", "hamburger", "user-menu"];
-
-          api.headerIcons.add(link.title, iconComponent, {
-            before: beforeIcon,
-          });
         });
       } catch (error) {
         // eslint-disable-next-line no-console
