@@ -1,11 +1,11 @@
 import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import { htmlSafe } from "@ember/template";
-import { eq } from "truth-helpers";
 import concatClass from "discourse/helpers/concat-class";
 import icon from "discourse/helpers/d-icon";
 import dasherize from "discourse/helpers/dasherize";
 import { escapeExpression } from "discourse/lib/utilities";
+import { eq } from "discourse/truth-helpers";
 import isValidUrl from "../lib/isValidUrl";
 
 const MOBILE_VIEWS = new Set(["vmo", "vdm"]);
