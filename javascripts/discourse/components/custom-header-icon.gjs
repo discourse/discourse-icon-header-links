@@ -32,8 +32,12 @@ export default class CustomHeaderIcon extends Component {
 
   get style() {
     const numericWidth = Number(this.args.link.width);
+    // `!important` is needed to override the header icon width that core
+    // sets with `!important` when the "modernize foundation theme" upcoming
+    // change is enabled (`.uc-modernize-foundation-theme .d-header-icons
+    // .btn.icon { width: 2em !important }`).
     return Number.isFinite(numericWidth)
-      ? htmlSafe(`width: ${escapeExpression(numericWidth)}px`)
+      ? htmlSafe(`width: ${escapeExpression(numericWidth)}px !important`)
       : undefined;
   }
 
